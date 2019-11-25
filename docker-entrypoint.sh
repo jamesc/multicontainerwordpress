@@ -173,6 +173,8 @@ EOPHP
 			chown "$user:$group" wp-config.php
 		fi
 
+		#wp --allow-root plugin install password-protected
+		#wp --allow-root plugin install redis-cache
 		# see http://stackoverflow.com/a/2705678/433558
 		sed_escape_lhs() {
 			echo "$@" | sed -e 's/[]\/$*.^|[]/\\&/g'
@@ -232,6 +234,7 @@ EOPHP
 	for e in "${envs[@]}"; do
 		unset "$e"
 	done
+
 fi
 
 exec "$@"
