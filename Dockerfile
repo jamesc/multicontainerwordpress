@@ -1,4 +1,4 @@
-FROM php:7.2-apache
+FROM php:7.3-apache
 
 # install the PHP extensions we need
 RUN set -ex; \
@@ -29,15 +29,15 @@ RUN set -ex; \
 	rm -rf /var/lib/apt/lists/*
 
 #install redis php extension
-ENV PHPREDIS_VERSION=4.0.2
+# ENV PHPREDIS_VERSION=4.0.2
 
-RUN docker-php-source extract \
-  && curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/$PHPREDIS_VERSION.tar.gz \
-  && tar xfz /tmp/redis.tar.gz \
-  && rm -r /tmp/redis.tar.gz \
-  && mv phpredis-$PHPREDIS_VERSION /usr/src/php/ext/redis \
-  && docker-php-ext-install redis \
-  && docker-php-source delete
+# RUN docker-php-source extract \
+#   && curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/$PHPREDIS_VERSION.tar.gz \
+#   && tar xfz /tmp/redis.tar.gz \
+#   && rm -r /tmp/redis.tar.gz \
+#   && mv phpredis-$PHPREDIS_VERSION /usr/src/php/ext/redis \
+#   && docker-php-ext-install redis \
+#   && docker-php-source delete
 
 # set recommended PHP.ini settings
 # see https://secure.php.net/manual/en/opcache.installation.php
@@ -54,8 +54,8 @@ RUN a2enmod rewrite expires
 
 VOLUME /var/www/html
 
-ENV WORDPRESS_VERSION 5.2.2
-ENV WORDPRESS_SHA1 3605bcbe9ea48d714efa59b0eb2d251657e7d5b0
+ENV WORDPRESS_VERSION 5.3
+ENV WORDPRESS_SHA1 e3edcb1131e539c2b2e10fed37f8b6683c824a98
 
 RUN set -ex; \
 	curl -o wordpress.tar.gz -fSL "https://wordpress.org/wordpress-${WORDPRESS_VERSION}.tar.gz"; \
