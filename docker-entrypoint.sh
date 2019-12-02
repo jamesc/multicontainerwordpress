@@ -61,25 +61,25 @@ if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
 			curl -o BaltimoreCyberTrustRoot.crt.pem -fsL "https://www.digicert.com/CACerts/BaltimoreCyberTrustRoot.crt.pem"
 		fi
 
-		# Install Redis Cache WordPress Plugin
-	    if [ ! -e wp-content/plugins/redis-cache ]; then
+		# # Install Redis Cache WordPress Plugin
+	    # if [ ! -e wp-content/plugins/redis-cache ]; then
 
-			# Update package repos
-			apt-get update
+		# 	# Update package repos
+		# 	apt-get update
 
-			# Install unzip
-			apt-get install unzip
+		# 	# Install unzip
+		# 	apt-get install unzip
 
-			echo "Downloading https://downloads.wordpress.org/plugin/redis-cache.1.3.8.zip"
-			curl -o redis-cache.1.3.8.zip -fsL "https://downloads.wordpress.org/plugin/redis-cache.1.3.8.zip"
+		# 	echo "Downloading https://downloads.wordpress.org/plugin/redis-cache.1.3.8.zip"
+		# 	curl -o redis-cache.1.3.8.zip -fsL "https://downloads.wordpress.org/plugin/redis-cache.1.3.8.zip"
 
-			echo "Unzipping redis-cache.1.3.8.zip to /var/www/html/wp-content/plugins/"
-			unzip -q redis-cache.1.3.8.zip -d /var/www/html/wp-content/plugins/
+		# 	echo "Unzipping redis-cache.1.3.8.zip to /var/www/html/wp-content/plugins/"
+		# 	unzip -q redis-cache.1.3.8.zip -d /var/www/html/wp-content/plugins/
 
-			echo "Removing redis-cache.1.3.8.zip"
-			rm redis-cache.1.3.8.zip
-        fi
-   
+		# 	echo "Removing redis-cache.1.3.8.zip"
+		# 	rm redis-cache.1.3.8.zip
+        # fi
+
         chown -R "$user:$group" /var/www/html
 
 		if [ ! -e .htaccess ]; then
@@ -173,6 +173,8 @@ EOPHP
 			chown "$user:$group" wp-config.php
 		fi
 
+		#wp --allow-root plugin install password-protected
+		#wp --allow-root plugin install redis-cache
 		# see http://stackoverflow.com/a/2705678/433558
 		sed_escape_lhs() {
 			echo "$@" | sed -e 's/[]\/$*.^|[]/\\&/g'
@@ -232,6 +234,7 @@ EOPHP
 	for e in "${envs[@]}"; do
 		unset "$e"
 	done
+
 fi
 
 exec "$@"
