@@ -157,5 +157,19 @@ RUN set -ex; \
 
 COPY docker-entrypoint.sh /usr/local/bin/
 
+#
+# App Service ssh config
+#
+RUN set -eux; \
+	apt-get update; \
+	apt-get install -y --no-install-recommends \
+		openssh-server; \
+	echo "root:Docker!" | chpasswd ; \
+	rm -rf /var/lib/apt/lists/*
+
+COPY sshd_config /etc/ssh/
+ENV SSH_PORT 2222
+EXPOSE 2222
+
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["apache2-foreground"]

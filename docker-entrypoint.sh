@@ -1,6 +1,11 @@
 #!/bin/bash
 set -euo pipefail
 
+# starting sshd process for app service debugging
+sed -i "s/SSH_PORT/$SSH_PORT/g" /etc/ssh/sshd_config
+mkdir -p /run/sshd
+/usr/sbin/sshd
+
 # usage: file_env VAR [DEFAULT]
 #    ie: file_env 'XYZ_DB_PASSWORD' 'example'
 # (will allow for "$XYZ_DB_PASSWORD_FILE" to fill in the value of
